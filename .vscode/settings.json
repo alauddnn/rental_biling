@@ -1,0 +1,7 @@
+{
+  "liveServer.settings.multiRootWorkspaceName": "Projek-PBO-Billing",
+  "liveServer.settings.ignoreFiles": [
+    "**/*.json"
+  ],
+  "liveServer.settings.wait": 5000
+}

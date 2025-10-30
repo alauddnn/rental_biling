@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REXUS PLAYSTATION</title>
+    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+<!-- ======================= SIDEBAR/HUMBURGER MENU ======================= -->
+    <div class="container">
+        <div class="sidebar-overlay"></div>
+        <aside class="sidebar">
+  <div class="sidebar-header">
+    <h2>🎮 REXUS</h2>
+  </div>
+
+  <ul class="nav-menu">
+    <li class="active">
+      <a href="#" data-target="inventoryContent">
+        <ion-icon name="layers-outline"></ion-icon>
+        <span>Inventory</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" data-target="cafeContent">
+        <ion-icon name="cafe-outline"></ion-icon>
+        <span>Cafe</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" data-target="reportContent">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        <span>Report</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" data-target="settingsContent">
+        <ion-icon name="settings-outline"></ion-icon>
+        <span>Settings</span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="sidebar-footer">
+  <div class="profile-mini">
+    <img src="images/ala.png" alt="User Avatar" />
+    <div>
+      <p class="username">Admin</p>
+      <small>Online</small>
+    </div>
+  </div>
+
+  <div class="admin-actions">
+    <button id="sidebarLogoutBtn" class="footer-btn logout">
+      <ion-icon name="log-out-outline"></ion-icon> Logout
+    </button>
+  </div>
+</div>
+</aside>
+        <div id="logoutConfirm" class="hidden">
+    <div class="modal-content">
+      <h3>Konfirmasi Logout</h3>
+      <p>Apakah Anda yakin ingin keluar dari akun ini?</p>
+      <div class="modal-actions">
+        <button id="confirmLogout" class="btn-danger">Iya</button>
+        <button id="cancelLogout" class="btn-secondary">Batal</button>
+      </div>
+    </div>
+  </div>
+<!-- ======================= HEADER ======================= -->
+        <main class="main-content">
+            <header class="header">
+                <button class="menu-toggle" id="menuToggle"><ion-icon name="menu-outline"></ion-icon></button>
+                    <h2 id="headerTitle">INVENTORY BILLING</h2>
+                 <div class="search-profile">
+             <div class="search-box"><ion-icon name="search-outline"></ion-icon><input type="text" placeholder="Cari Billing..."></div>
+
+            </header>
+
+            <div id="inventoryContent" class="content-section active"><section class="ps-grid" id="psGridContainer"></section></div>
+            <div id="cafeContent" class="content-section hidden"><section class="cafe-grid" id="cafeMenuContainer"></section></div>
+<!-- ======================= SECTION REPORT ======================= -->
+            <div id="reportContent" class="content-section hidden">
+                <div class="report-container">
+                    <div class="report-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+                        <div>
+                <h3>Laporan Hari Ini</h3> 
+                <p id="reportDate"></p>
+            </div>
+<!-- ======================= PDF/CSV ======================= -->            
+            <div style="display: flex; gap: 10px;">
+                <button id="downloadPdfBtn" class="btn-save" style="background-color: var(--red);"><ion-icon name="document-text"></ion-icon> Download PDF</button>
+                <button id="downloadCsvBtn" class="btn-save" style="background-color: var(--green);"><ion-icon name="download"></ion-icon> Download CSV</button>
+            </div>
+        </div>
+<!-- ======================= TABEL LAPORAN ======================= -->        
+                    <div class="report-summary-grid">
+                        <div class="summary-card"><ion-icon name="wallet-outline"></ion-icon><div class="card-content"><span class="label">Total Pendapatan</span><span class="value" id="totalRevenue">Rp 0</span></div></div>
+                        <div class="summary-card"><ion-icon name="game-controller-outline"></ion-icon><div class="card-content"><span class="label">Dari Billing PS</span><span class="value" id="psRevenue">Rp 0</span></div></div>
+                        <div class="summary-card"><ion-icon name="cafe-outline"></ion-icon><div class="card-content"><span class="label">Dari Penjualan Kafe</span><span class="value" id="cafeRevenue">Rp 0</span></div></div>
+                        <div class="summary-card"><ion-icon name="receipt-outline"></ion-icon><div class="card-content"><span class="label">Jumlah Transaksi</span><span class="value" id="transactionCount">0</span></div></div>
+                    </div>
+<!-- ======================= RIWAYAT TRANSAKSI ======================= -->
+                    <div class="report-details-grid">
+                        <div class="transaction-list">
+                            <h4>Riwayat Transaksi Terakhir</h4>
+                            <div class="table-wrapper">
+                               <table class="transaction-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Waktu</th>
+                                            <th>PS</th>
+                                            <th>User</th>
+                                            <th>Total Bayar</th>
+                                            <th>Struk</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="transactionHistoryBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="top-products-list">
+                            <h4>Produk Kafe Terlaris</h4>
+                            <ul id="topProductsBody"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settingsContent" class="content-section hidden">
+              <div class="settings-container">
+                <h3 class="settings-title">Settings Panel</h3>
+                <div class="settings-grid">
+                  <div class="settings-card"><h4><ion-icon name="person-outline"></ion-icon> Admin Profile</h4><div class="settings-body"><label>Nama Admin</label><input type="text" id="adminName" value="Ala Uddin" /><label>Password Baru</label><input type="password" id="newPassword" placeholder="********" /><button class="btn-save">Simpan</button></div></div>
+                  <div class="settings-card"><h4><ion-icon name="cash-outline"></ion-icon> Pengaturan Tarif</h4><div class="settings-body"><label>Tarif per Jam</label><input type="number" id="ratePerHour" value="7000" /><label>Waktu Minimal (menit)</label><input type="number" id="minDuration" value="60" /><button class="btn-save">Simpan</button></div></div>
+                  <div class="settings-card"><h4><ion-icon name="restaurant-outline"></ion-icon> Pengaturan Tarif Café</h4><div class="settings-body"><p style="margin-bottom: 15px; color: var(--grey-light);">Ubah harga menu makanan dan minuman.</p><button id="editCafePricesBtn" class="btn-save" style="width:100%; float: none;">Ubah Harga Menu</button></div></div>
+                  <div class="settings-card"><h4><ion-icon name="color-palette-outline"></ion-icon> Tampilan</h4><div class="settings-body"><label>Pilih Tema</label><select id="themeSelect"><option value="dark">Dark Mode</option><option value="light">Light Mode</option></select><button id="applyTheme" class="btn-save">Terapkan</button></div></div>
+                </div>
+              </div>
+            </div>
+        </main>
+    </div>
+ <!-- ======================= BILIING PS ======================= -->
+    <div id="sessionModal" class="modal-backdrop hidden"><div class="modal-content"><h2 id="modalTitle">Mulai Sesi Baru</h2><form id="sessionForm"><input type="hidden" id="modalPsId"><div class="form-group"><label for="customerName">Nama Pelanggan</label><input type="text" id="customerName"></div><div class="form-group"><label for="durationHours">Durasi (Jam)</label><input type="number" id="durationHours" step="0.5" min="0" required></div><div class="form-actions"><button type="button" class="cancel-btn">Batal</button><button type="submit" class="start-btn">Mulai Sesi</button></div></form></div></div>
+ <!-- ======================= STRUCK PS ======================= -->
+    <div id="outputModal" class="modal-backdrop hidden"><div class="modal-content"><h2 style="color: var(--green);">TRANSAKSI BERHASIL</h2><pre id="billingOutputDetails"></pre><div class="form-actions" style="justify-content: center;"><button type="button" id="closeOutputModal" class="start-btn">Tutup</button></div></div></div>
+ <!-- ======================= MENU CAFFE ======================= -->
+    <div id="cafeOrderModal" class="modal-backdrop hidden">
+    <div class="modal-content">
+        <h2>Konfirmasi Order</h2>
+        <form id="cafeOrderForm">
+            <input type="hidden" id="orderItemName">
+            <input type="hidden" id="orderItemPrice">
+            
+            <div class="form-group">
+                <label for="orderTargetPs">Pesan untuk PS Nomor:</label>
+                <select id="orderTargetPs" required></select>
+            </div>
+            
+            <div class="form-group">
+                <label for="orderQuantity">Kuantitas</label>
+                <input 
+                    type="number" 
+                    id="orderQuantity" 
+                    value="1" 
+                    min="1" 
+                    required 
+                    style="width: calc(100% - 70px); display: inline-block;">
+                <span id="maxStockHint" style="color: var(--grey-light); font-size: 0.8em; margin-left: 5px;"></span> 
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" id="cancelOrderButton" class="cancel-btn">Batal</button>
+                <button type="submit" class="start-btn">Konfirmasi</button>
+            </div>
+        </form>
+    </div>
+</div>
+ <!-- ======================= MENGUBAH HARGA MENU CAFE ======================= -->
+    <div id="cafeRateModal" class="modal-backdrop hidden"><div class="modal-content"><h2>Ubah Harga Menu Café</h2><div id="cafeRateModalBody" class="modal-body-scrollable"></div><div class="form-actions"><button type="button" id="cancelCafeRateChange" class="cancel-btn">Batal</button><button type="button" id="saveCafeRateChange" class="start-btn">Simpan</button></div></div></div>
+   
+    <!-- ======================= PDF/CSV ======================= -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- ======================= SCRIPT UTAMA ======================= -->
+    <script src="script.js"></script>
+</body>
+</html>
